@@ -21,8 +21,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const News(),
+    const Trackbox(),
     const Projects(),
-    const Trackbox()
   ];
 
   @override
