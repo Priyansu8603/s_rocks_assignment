@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:s_rocks_assignment/features/homescreen/View/ServiceDetailScreen.dart';
 import '../../../Utils/utils.dart';
 import '../../../Utils/AppColors.dart';
 import '../Model/ServiceModel.dart';
 import '../ViewModel/HomeViewModel.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late HomeViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = HomeViewModel(Provider.of(context, listen: false));
+    viewModel.fetchListData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create:
-          (_) =>
-              HomeViewModel(Provider.of(context, listen: false))
-                ..fetchListData(),
+    return ChangeNotifierProvider.value(
+      value: viewModel,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: AppColors.blackshade,
@@ -126,7 +138,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               const Text(
                 'Claim your',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white, fontSize: 16,fontFamily: 'Syne'),
               ),
               const Text(
                 'Free Demo',
@@ -141,7 +153,7 @@ class HomeScreen extends StatelessWidget {
                 'for custom Music Production',
                 style: TextStyle(
                   color: Colors.white,
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Syne',
                   fontSize: 16,
                 ),
               ),
@@ -164,15 +176,39 @@ class HomeScreen extends StatelessWidget {
                 child: const Text(
                   'Book Now',
                   style: TextStyle(
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Syne',
                     color: Colors.black,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 20),
+          SizedBox(
+            height: 80,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  left: -40,
+                  bottom: 20,
+                  child: Image.asset(
+                    'core/Assets/images/record.png',
+                    height: 120,
+                  ),
+                ),
+                Positioned(
+                  right: -30,
+                  bottom: 20,
+                  child: Image.asset(
+                    'core/Assets/images/piano.png',
+                    height: 120,
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -192,7 +228,7 @@ class HomeScreen extends StatelessWidget {
                         image: NetworkImage(service.background_image),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(0.3),
+                          Colors.transparent.withOpacity(0.8),
                           BlendMode.darken,
                         ),
                       ),
@@ -201,8 +237,8 @@ class HomeScreen extends StatelessWidget {
                     child: ListTile(
                       leading: Image.network(
                         service.icon,
-                        height: 25,
-                        width: 25,
+                        height: 50,
+                        width: 50,
                       ),
                       title: Text(
                         service.title,
@@ -223,6 +259,14 @@ class HomeScreen extends StatelessWidget {
                         Icons.arrow_forward_ios,
                         color: Colors.white,
                       ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ServiceDetailScreen(service: service),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 )

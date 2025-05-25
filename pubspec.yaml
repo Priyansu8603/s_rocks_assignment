@@ -92,6 +92,11 @@ flutter:
     - family: Lobster
       fonts:
         - asset: core/Assets/fonts/Lobster-Regular.ttf
+
+    - family: Syne
+      fonts:
+        - asset: core/Assets/fonts/Syne.ttf
+
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
